@@ -1,0 +1,39 @@
+# Byte-code files
+*.pyc
+__pycache__/
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.bak
+
+# Testing
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Logs
+*.log
