@@ -24,7 +24,7 @@ line-length = 88
 
 # Enable specific rule options.
 [flake8-annotations]
-mypy-init-shorthand = true
+mypy-init-return = true
 
 [flake8-quotes]
 inline-quotes = "double"
