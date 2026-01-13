@@ -19,6 +19,8 @@ MODEL_PREFIXES = {
     "LABOX": "ws_server",
 }
 
+DEFAULT_PORT = 7682
+
 
 class DiscoveredBox(NamedTuple):
     """Represents a discovered SFR Box."""
@@ -67,7 +69,7 @@ class _DiscoveryListener:
         
         # Per user spec for POC, port is hardcoded.
         # In the future, this might come from the service info or a secondary lookup.
-        port = 7682
+        port = DEFAULT_PORT
         
         ip_addresses = info.parsed_addresses()
         if not ip_addresses:
