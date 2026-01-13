@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""A command-line utility to discover SFR boxes on the local network.
-"""
+"""A command-line utility to discover SFR boxes on the local network."""
 import argparse
 import asyncio
 import logging
@@ -9,20 +8,16 @@ import sys
 
 # Ensure the script can find the sfr_box_core module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from sfr_box_core.discovery import async_discover_boxes
+from sfr_box_core.discovery import async_discover_boxes  # noqa: E402
 
 # Set up basic logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 _LOGGER = logging.getLogger(__name__)
 
 
 async def main():
     """Main function to run the discovery."""
-    parser = argparse.ArgumentParser(
-        description="Discover SFR STBs on the local network."
-    )
+    parser = argparse.ArgumentParser(description="Discover SFR STBs on the local network.")
     parser.add_argument(
         "-t",
         "--timeout",

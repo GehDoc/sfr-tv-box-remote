@@ -1,5 +1,4 @@
-"""Module for discovering SFR boxes on the local network using mDNS (Zeroconf).
-"""
+"""Module for discovering SFR boxes on the local network using mDNS (Zeroconf)."""
 import asyncio
 import logging
 from typing import Dict
@@ -53,6 +52,7 @@ class _DiscoveryListener:
 
     def add_service(self, zc: Zeroconf, type_: str, name: str) -> None:
         """A service has been added.
+
         This is a synchronous callback from zeroconf, so we schedule the
         async work to be done on the event loop.
         """

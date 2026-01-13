@@ -1,3 +1,4 @@
+"""Tests for the `BaseSFRBoxDriver` abstract base class."""
 import asyncio
 from unittest.mock import AsyncMock
 from unittest.mock import MagicMock
@@ -10,11 +11,15 @@ from sfr_box_core.base_driver import BaseSFRBoxDriver
 
 # Since we are testing the abstract base class, we need a concrete implementation.
 class ConcreteDriver(BaseSFRBoxDriver):
+    """A concrete implementation of `BaseSFRBoxDriver` for testing purposes."""
+
     def __init__(self, *args, **kwargs):
+        """Initializes the `ConcreteDriver` and a list to store handled messages."""
         super().__init__(*args, **kwargs)
         self.handled_messages = []
 
     async def _handle_message(self, message: str):
+        """Handles a message by appending it to the `handled_messages` list."""
         self.handled_messages.append(message)
 
 

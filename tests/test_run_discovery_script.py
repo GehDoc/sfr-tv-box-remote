@@ -1,5 +1,4 @@
-"""Tests for the run_discovery.py command-line script.
-"""
+"""Tests for the run_discovery.py command-line script."""
 import logging
 from unittest.mock import AsyncMock
 

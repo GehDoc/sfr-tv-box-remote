@@ -1,3 +1,5 @@
+"""Abstract Base Class for SFR Box drivers."""
+
 import asyncio
 import logging
 from abc import ABC
@@ -36,6 +38,7 @@ class BaseSFRBoxDriver(ABC):
     @abstractmethod
     async def _handle_message(self, message: str) -> None:
         """Abstract method to handle incoming messages from the WebSocket.
+
         Implement this in subclasses for specific box logic.
 
         Args:
@@ -55,12 +58,12 @@ class BaseSFRBoxDriver(ABC):
                 break
             except Exception as e:
                 _LOGGER.error(
-                    "Connection failed: %s. Retrying in %d seconds...", e, retry_delay
+                    "Connection failed: %s. Retrying in %d s...",
+                    e,
+                    retry_delay,
                 )
                 await asyncio.sleep(retry_delay)
-                retry_delay = min(
-                    retry_delay * 2, 60
-                )  # Exponential backoff, max 60 seconds
+                retry_delay = min(retry_delay * 2, 60)  # Exponential backoff, max 60s
 
     async def start(self) -> None:
         """Starts the WebSocket connection and message listening."""
@@ -121,5 +124,6 @@ class BaseSFRBoxDriver(ABC):
         except Exception as e:
             _LOGGER.error("Error during message listening: %s", e)
             await self.stop()
-            # Depending on the desired behavior, you might want to trigger reconnection here too.
+            # Depending on the desired behavior, you might want to trigger
+            # reconnection here too.
             await self.start()

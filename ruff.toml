@@ -4,10 +4,6 @@
 # The Python version to target, used to enable/disable specific rules.
 target-version = "py312"
 
-# Enable all `W` (warnings) and `E` (errors) rules by default.
-# See https://beta.ruff.rs/docs/rules/ for a complete list of rules.
-select = ["E", "W", "F", "I", "N", "D"] # E=Error, W=Warning, F=Flake8, I=isort, N=naming, D=docstrings
-
 # Exclude files and directories from linting.
 exclude = [
     ".git",
@@ -20,25 +16,28 @@ exclude = [
 ]
 
 # Configure the line length limit.
-line-length = 88
+line-length = 128
 
-# Enable specific rule options.
-[flake8-annotations]
+[lint]
+# Enable all `W` (warnings) and `E` (errors) rules by default.
+# See https://beta.ruff.rs/docs/rules/ for a complete list of rules.
+select = ["E", "W", "F", "I", "N", "D"] # E=Error, W=Warning, F=Flake8, I=isort, N=naming, D=docstrings
+
+[lint.flake8-annotations]
 mypy-init-return = true
 
-[flake8-quotes]
+[lint.flake8-quotes]
 inline-quotes = "double"
 
-[isort]
+[lint.isort]
 known-first-party = ["sfr_box_core", "custom_components"]
 force-single-line = true
 combine-as-imports = true
 known-local-folder = ["tests", "scripts"]
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
-[pydocstyle]
+[lint.pydocstyle]
 convention = "google"
 
-[mccabe]
+[lint.mccabe]
 max-complexity = 10
-

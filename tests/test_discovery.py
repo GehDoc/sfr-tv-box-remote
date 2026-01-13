@@ -1,5 +1,4 @@
-"""Tests for the discovery module.
-"""
+"""Tests for the discovery module."""
 from unittest.mock import AsyncMock
 from unittest.mock import MagicMock
 from unittest.mock import patch
@@ -25,9 +24,7 @@ def mock_async_zeroconf():
     mock_aiozc.zeroconf = mock_zc_instance
     mock_aiozc.async_close = AsyncMock()
 
-    with patch(
-        "sfr_box_core.discovery.AsyncZeroconf", return_value=mock_aiozc
-    ) as mock_aiozc_class:
+    with patch("sfr_box_core.discovery.AsyncZeroconf", return_value=mock_aiozc) as _:
         yield mock_aiozc, mock_service_info
 
 
@@ -45,9 +42,7 @@ async def test_discover_single_box_async(mock_async_zeroconf, monkeypatch):
     listener = _DiscoveryListener()
 
     # In tests, we call the internal async handler directly
-    await listener._async_add_handler(
-        mock_aiozc.zeroconf, "_ws._tcp.local.", "STB8-aabbcc.local."
-    )
+    await listener._async_add_handler(mock_aiozc.zeroconf, "_ws._tcp.local.", "STB8-aabbcc.local.")
 
     monkeypatch.setattr("sfr_box_core.discovery._DiscoveryListener", lambda: listener)
 
@@ -75,21 +70,15 @@ async def test_discover_multiple_boxes_async(mock_async_zeroconf, monkeypatch):
     # Simulate finding STB7
     mock_service_info.server = "STB7-device.local."
     mock_service_info.parsed_addresses.return_value = ["192.168.1.20"]
-    await listener._async_add_handler(
-        mock_aiozc.zeroconf, "_ws._tcp.local.", "STB7-xxyyzz.local."
-    )
+    await listener._async_add_handler(mock_aiozc.zeroconf, "_ws._tcp.local.", "STB7-xxyyzz.local.")
 
     # Simulate finding LaBox
     mock_service_info.server = "ws_server-device.local."
     mock_service_info.parsed_addresses.return_value = ["192.168.1.30"]
-    await listener._async_add_handler(
-        mock_aiozc.zeroconf, "_ws._tcp.local.", "ws_server-123456.local."
-    )
+    await listener._async_add_handler(mock_aiozc.zeroconf, "_ws._tcp.local.", "ws_server-123456.local.")
 
     # Simulate finding an unrelated service that should be ignored
-    await listener._async_add_handler(
-        mock_aiozc.zeroconf, "_ws._tcp.local.", "OtherDevice.local."
-    )
+    await listener._async_add_handler(mock_aiozc.zeroconf, "_ws._tcp.local.", "OtherDevice.local.")
 
     monkeypatch.setattr("sfr_box_core.discovery._DiscoveryListener", lambda: listener)
 
