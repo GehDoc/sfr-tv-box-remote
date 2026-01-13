@@ -70,16 +70,6 @@ The script will scan the network for 10 seconds by default.
 
   ```
 
-You can also make the script directly executable for convenience:
-
-```bash
-
-chmod +x scripts/run_discovery.py
-
-./scripts/run_discovery.py
-
-```
-
 ## 5. Development Setup
 
 To ensure code quality and consistency, this project uses `ruff` for linting and formatting, enforced by `pre-commit` hooks.
