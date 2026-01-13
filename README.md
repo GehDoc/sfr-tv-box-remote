@@ -32,7 +32,76 @@ Composant personnalisé prêt pour HACS (Délivrables 3 & 5).
 - **Langage** : Python 3.12 (Asynchrone via `asyncio`).
 - **Robustesse** : Gestion de la reconnexion avec backoff exponentiel et monitoring de la connexion (Heartbeat).
 
+## 4. Utilities
+
+
+
+### Discovery Script
+
+
+
+The project includes a command-line utility to discover SFR boxes on your local network. This is useful for testing the discovery mechanism or finding the IP address of your box.
+
+
+
+**Location:** `scripts/run_discovery.py`
+
+
+
+**Usage:**
+
+
+
+To run the script, execute the following command from the root of the project directory:
+
+
+
+```bash
+
+python scripts/run_discovery.py
+
+```
+
+
+
+The script will scan the network for 10 seconds by default.
+
+
+
+**Options:**
+
+
+
+*   `-t <seconds>`, `--timeout <seconds>`: Specify the duration of the network scan in seconds.
+
+
+
+    *Example (scan for 5 seconds):*
+
+    ```bash
+
+    python scripts/run_discovery.py -t 5
+
+    ```
+
+
+
+You can also make the script directly executable for convenience:
+
+```bash
+
+chmod +x scripts/run_discovery.py
+
+./scripts/run_discovery.py
+
+```
+
+
+
 ## 3. Structure du Repository
 
+
+
 Le projet suit une architecture Monorepo stricte séparant la librairie Core de l'intégration Home Assistant.
+
 Pour le détail complet de l'arborescence et les conventions de développement, veuillez vous référer au fichier [AGENTS.md](./AGENTS.md).

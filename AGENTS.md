@@ -43,10 +43,11 @@ sfr-box-remote/
 
 Tout agent doit opérer selon le cycle suivant :
 
-1. **Approche Atomique** : Ne traiter qu'un seul fichier ou une seule brique logique par réponse.
-2. **Test-Driven Development (TDD)** : Chaque fonctionnalité doit être livrée avec son test unitaire (dans `/tests`) simulant les réponses de la box.
-3. **Documentation Inline** : Utilisation systématique de docstrings (format Google) et typage statique complet (`typing`).
-4. **Validation & Itération** : L'agent doit attendre la validation de l'utilisateur (et la publication Git) avant de passer à l'étape suivante.
+1. **Spécification (SPEC)** : Pour toute nouvelle fonctionnalité, un document `[NOM_FONCTIONNALITÉ]_SPEC.md` en majuscules doit être créé dans `/docs`. Ce document doit être validé par l'utilisateur avant de commencer l'implémentation.
+2. **Approche Atomique** : Ne traiter qu'un seul fichier ou une seule brique logique par réponse.
+3. **Test-Driven Development (TDD)** : Chaque fonctionnalité doit être livrée avec son test unitaire (dans `/tests`) simulant les réponses de la box.
+4. **Documentation Inline** : Utilisation systématique de docstrings (format Google) et typage statique complet (`typing`).
+5. **Validation & Itération** : L'agent doit attendre la validation de l'utilisateur (et la publication Git) avant de passer à l'étape suivante.
 
 ## 4. Instructions de Programmation
 
