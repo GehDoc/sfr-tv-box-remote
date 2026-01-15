@@ -1,5 +1,4 @@
-"""
-Command-Line Interface for interacting with SFR boxes.
+"""Command-Line Interface for interacting with SFR boxes.
 
 This script provides a way to send single commands to a discovered box
 to test and control it from the command line.
@@ -7,14 +6,16 @@ to test and control it from the command line.
 import argparse
 import asyncio
 import logging
-import sys
 import os
-from typing import Dict, Optional, Type
+import sys
+from typing import Dict
+from typing import Type
 
 # Ensure the script can find the sfr_box_core module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from sfr_box_core.base_driver import BaseSFRBoxDriver
-from sfr_box_core.constants import CommandType, KeyCode
+from sfr_box_core.constants import CommandType
+from sfr_box_core.constants import KeyCode
 from sfr_box_core.stb8_driver import STB8Driver
 
 # Configure logging
@@ -45,7 +46,7 @@ async def main() -> None:
 
     # Sub-parser for the 'get_status' command
     subparsers.add_parser(CommandType.GET_STATUS.value, help="Get the current status of the box.")
-    
+
     # Sub-parser for the 'get_versions' command
     subparsers.add_parser(CommandType.GET_VERSIONS.value, help="Get version information from the box.")
 
@@ -57,7 +58,7 @@ async def main() -> None:
         return
 
     driver = driver_class(host=args.ip, port=args.port)
-    
+
     # Use an asyncio.Future to wait for the first message
     first_message_received = asyncio.Future()
 
@@ -77,7 +78,7 @@ async def main() -> None:
 
         _LOGGER.info("Sending command: %s with params: %s", args.command, command_params or "None")
         await driver.send_command(CommandType(args.command), **command_params)
-        
+
         _LOGGER.info("Waiting for response...")
         response = await asyncio.wait_for(first_message_received, timeout=5.0)
         _LOGGER.info("Received response:\n%s", response)

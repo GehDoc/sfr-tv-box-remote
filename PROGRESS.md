@@ -2,7 +2,7 @@
 
 ## 📊 État Global
 - **Phase actuelle** : Phase 2 (Implémentation des drivers)
-- **Dernier Step validé** : Phase 2.1 (v8_driver.py)
+- **Dernier Step validé** : Phase 2.2 (sfr_box_remote.py)
 
 ## 📝 Journal des Steps
 
@@ -10,7 +10,7 @@
 - [x] **Step 1.2** : discovery.py (mDNS Listener)
 - [x] **Step 1.3** : Définir la structure des commandes et créer `sfr_box_core/constants.py` pour les valeurs de commandes partagées.
 - [x] **Phase 2.1** : v8_driver.py - *Priorité Haute*
-- [ ] **Phase 2.2** : sfr_box_remote.py (Mode "1-shot") - *Priorité Haute*
+- [x] **Phase 2.2** : sfr_box_remote.py (Mode "1-shot") - *Priorité Haute*
 - [ ] **Phase 2.3** : v7_driver.py - *Priorité Moyenne*
 - [ ] **Phase 3** : Intégration Home Assistant
 - [x] **Phase 4.1** : CI (Workflows GitHub Actions)
@@ -26,7 +26,7 @@
 
 ## ⏭️ Prochaine Étape (Passage de relais)
 
-- Lancer la **Phase 2.2** : Créer le script `sfr_box_remote.py` (Mode "1-shot").
+- Lancer la **Phase 2.3** : Implémenter le driver pour la Box STB7 (`v7_driver.py`).
 
 ## 🗂️ Backlog / V2
 
