@@ -93,7 +93,7 @@ PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip <ADRESSE_IP_DE_VOTRE_BOX> 
 **Options Principales :**
 
 *   `--ip <ADRESSE_IP>` : **Requis.** L'adresse IP de la box.
-*   `--port <NUMERO_DE_PORT>` : Le port pour la connexion WebSocket (par défaut : 8080).
+*   `--port <NUMERO_DE_PORT>` : Le port pour la connexion WebSocket (par défaut : 7682).
 *   `--model <MODELE>` : Le modèle de la box (par défaut : STB8). Modèles supportés actuellement : `STB8`.
 
 **Commandes :**

@@ -15,6 +15,7 @@ from typing import Type
 # Ensure the script can find the sfr_box_core module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from sfr_tv_box_core.base_driver import BaseSFRBoxDriver
+from sfr_tv_box_core.constants import DEFAULT_WEBSOCKET_PORT
 from sfr_tv_box_core.constants import CommandType
 from sfr_tv_box_core.constants import KeyCode
 from sfr_tv_box_core.stb8_driver import STB8Driver
@@ -36,7 +37,12 @@ async def main() -> None:
     """Main function to parse arguments and run a single command."""
     parser = argparse.ArgumentParser(prog="sfr_tv_box_remote.py", description="A CLI to control SFR TV boxes.")
     parser.add_argument("--ip", required=True, help="IP address of the set-top box.")
-    parser.add_argument("--port", type=int, default=8080, help="Port for the WebSocket connection (default: 8080).")
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=DEFAULT_WEBSOCKET_PORT,
+        help=f"Port for the WebSocket connection (default: {DEFAULT_WEBSOCKET_PORT}).",
+    )
     parser.add_argument("--model", choices=DRIVER_MAP.keys(), default="STB8", help="The model of the box (default: STB8).")
 
     subparsers = parser.add_subparsers(dest="command", required=True, help="The command to execute.")

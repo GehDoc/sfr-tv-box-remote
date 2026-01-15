@@ -18,7 +18,7 @@ The discovery process for any box should yield a structured object containing th
 | `identifier`                 | `str`  | A machine-readable model identifier (e.g., STB8, STB7, LaBox, EVO).                                      | `STB8`                           |
 | `name`                       | `str`  | A user-friendly name for the device.                                                                    | `Décodeur TV Salon`              |
 | `ip_address`                 | `str`  | The local IP address of the box.                                                                        | `192.168.1.25`                   |
-| `port`                       | `int`  | The WebSocket port for the control protocol.                                                            | `8080`                           |
+| `port`                       | `int`  | The WebSocket port for the control protocol.                                                            | `7682`                           |
 | `icon_url`                   | `str`  | A URL to a device icon, suitable for a UI.                                                              | `http://.../icon.png`            |
 | `service_name_prefix_avahi`  | `str`  | The prefix used in the mDNS service instance name to identify the box model (from `dn/i.java`).         | `STB8`                           |
 

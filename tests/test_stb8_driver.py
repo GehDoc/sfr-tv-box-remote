@@ -5,6 +5,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
+from sfr_tv_box_core.constants import DEFAULT_WEBSOCKET_PORT
 from sfr_tv_box_core.constants import CommandType
 from sfr_tv_box_core.constants import KeyCode
 from sfr_tv_box_core.stb8_driver import STB8Driver
@@ -14,7 +15,7 @@ from sfr_tv_box_core.stb8_driver import _STB8CommandBuilder
 @pytest.fixture
 def stb8_driver():
     """Provides a STB8Driver instance with a mocked send_message."""
-    driver = STB8Driver(host="localhost", port=8080, device_id="test-stb8")
+    driver = STB8Driver(host="localhost", port=DEFAULT_WEBSOCKET_PORT, device_id="test-stb8")
     driver.send_message = AsyncMock()  # Mock the parent's send_message
     return driver
 

@@ -8,6 +8,7 @@ from unittest.mock import AsyncMock
 import pytest
 
 from sfr_tv_box_core.base_driver import BaseSFRBoxDriver  # Import BaseSFRBoxDriver
+from sfr_tv_box_core.constants import DEFAULT_WEBSOCKET_PORT
 from sfr_tv_box_core.constants import CommandType
 from sfr_tv_box_core.constants import KeyCode
 
@@ -17,7 +18,9 @@ from scripts.sfr_tv_box_remote import main as sfr_tv_box_remote_main
 class _TestDriver(BaseSFRBoxDriver):  # Renamed to _TestDriver
     """A dedicated test driver for the CLI that simulates network interaction."""
 
-    def __init__(self, host: str, port: int = 8080, device_id: str = "test-stb8"):
+    def __init__(
+        self, host: str, port: int = DEFAULT_WEBSOCKET_PORT, device_id: str = "test-stb8"
+    ):
         super().__init__(host, port)
         self.sent_commands = []
         self.started = False

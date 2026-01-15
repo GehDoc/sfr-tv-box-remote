@@ -2,6 +2,8 @@
 
 from enum import StrEnum
 
+DEFAULT_WEBSOCKET_PORT = 7682
+
 
 class CommandType(StrEnum):
     """Abstract CommandType names.

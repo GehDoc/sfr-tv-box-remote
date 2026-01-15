@@ -9,6 +9,8 @@ from typing import Optional
 
 import websockets
 
+from sfr_tv_box_core.constants import DEFAULT_WEBSOCKET_PORT
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -21,7 +23,7 @@ class BaseSFRBoxDriver(ABC):
     and implement the abstract methods for their specific protocols.
     """
 
-    def __init__(self, host: str, port: int = 8080):
+    def __init__(self, host: str, port: int = DEFAULT_WEBSOCKET_PORT):
         """Initializes the BaseSFRBoxDriver.
 
         Args:

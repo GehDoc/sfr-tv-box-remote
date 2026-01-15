@@ -11,6 +11,8 @@ from zeroconf import Zeroconf
 from zeroconf.asyncio import AsyncServiceBrowser
 from zeroconf.asyncio import AsyncZeroconf
 
+from sfr_tv_box_core.constants import DEFAULT_WEBSOCKET_PORT
+
 _LOGGER = logging.getLogger(__name__)
 
 SERVICE_TYPE = "_ws._tcp.local."
@@ -22,7 +24,7 @@ MODEL_PREFIXES = {
     "LABOX": "ws_server",
 }
 
-DEFAULT_PORT = 7682
+
 
 
 class DiscoveredBox(NamedTuple):
@@ -73,7 +75,7 @@ class _DiscoveryListener:
 
         # Per user spec for POC, port is hardcoded.
         # In the future, this might come from the service info or a secondary lookup.
-        port = DEFAULT_PORT
+        port = DEFAULT_WEBSOCKET_PORT
 
         ip_addresses = info.parsed_addresses()
         if not ip_addresses:
