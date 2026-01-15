@@ -10,13 +10,16 @@ dependencies = [
 [tool.setuptools.packages.find]
 include = ["sfr_box_core", "custom_components*"]
 
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-testpaths = ["tests"]
-pythonpath = "."
-
 [project.optional-dependencies]
 dev = [
     "ruff>=0.1.0",
     "pre-commit>=3.0.0",
+    "pytest-cov>=4.0.0",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = "."
+addopts = "--cov=sfr_tv_box_core --cov=scripts --cov-report=term --cov-report=xml --cov-fail-under=80"
+
