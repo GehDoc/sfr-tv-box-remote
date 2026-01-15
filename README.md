@@ -13,14 +13,14 @@ Bibliothèque Python 3.12+ autonome (Délivrables 1 & 2).
 - **Transport** : Client WebSocket asynchrone unique pour toutes les box.
 - **Stratégie de Commandes (Payloads Polymorphiques)** :
   - `base_driver.py` : Interface de base gérant la session WebSocket, la reconnexion et un système générique pour l'envoi et la réception de commandes (ex: `send_command(command, **params)`). Chaque driver spécialisé implémentera la liste de ses commandes disponibles (`get_available_commands()`).
-  - `v8_driver.py` : Définit et implémente les commandes spécifiques à la Box TV 8 (ex: commandes JSON avec paramètres).
-  - `v7_driver.py` : Définit et implémente les commandes spécifiques à la Box TV 7.
+  - `stb8_driver.py` : Définit et implémente les commandes spécifiques à la Box TV 8 (ex: commandes JSON avec paramètres).
+  - `stb7_driver.py` : Définit et implémente les commandes spécifiques à la Box TV 7.
   - `labox_driver.py` : Définit et implémente les commandes spécifiques à LaBox.
   - `constants.py` : Contient des constantes partagées par la librairie, incluant potentiellement les valeurs de certains paramètres de commande (ex: KeyCodes utilisés par une commande `send_key`).
 - **Discovery** : Listener Avahi (`discovery.py`) pour l'identification de la version et l'attribution du bon driver.
 - **CLI** : Outil de pilotage en ligne de commande (`sfr_tv_box_remote.py`).
 
-### B. Intégration Home Assistant (`custom_components/sfr_box_remote/`)
+### B. Intégration Home Assistant (`custom_components/sfr_tv_box_remote/`)
 
 Composant personnalisé prêt pour HACS (Délivrables 3 & 5).
 
@@ -45,114 +45,125 @@ Le projet suit une architecture Monorepo stricte séparant la librairie Core de 
 
 Pour le détail complet de l'arborescence et les conventions de développement, veuillez vous référer au fichier [AGENTS.md](./AGENTS.md).
 
-## 4. Utilities
+## 4. Utilitaires
 
-### Discovery Script
+### Script de Découverte
 
-The project includes a command-line utility to discover SFR boxes on your local network. This is useful for testing the discovery mechanism or finding the IP address of your box.
+Ce projet inclut un utilitaire en ligne de commande pour découvrir les box SFR sur votre réseau local. Il est utile pour tester le mécanisme de découverte ou trouver l'adresse IP de votre box.
 
-**Location:** `scripts/run_discovery.py`
+**Emplacement :** `scripts/run_discovery.py`
 
-**Usage:**
+**Utilisation :**
 
-To run the script, execute the following command from the root of the project directory:
+Pour exécuter le script, lancez la commande suivante depuis la racine du répertoire du projet :
 
 ```bash
 python scripts/run_discovery.py
 ```
 
-The script will scan the network for 10 seconds by default.
+Le script recherchera les box pendant 10 secondes par défaut.
 
-**Options:**
+**Options :**
 
-*   `-t <seconds>`, `--timeout <seconds>`: Specify the duration of the network scan in seconds.
+*   `-t <secondes>`, `--timeout <secondes>` : Spécifie la durée (en secondes) de la recherche réseau.
 
-    *Example (scan for 5 seconds):*
+    *Exemple (recherche pendant 5 secondes) :*
     ```bash
     python scripts/run_discovery.py -t 5
     ```
 
-### SFR TV Box Remote Control Script
+### Script de Contrôle à Distance SFR TV Box
 
-The project includes a command-line utility to send specific commands to an SFR box. This is useful for testing drivers and controlling a box directly from the terminal.
+Ce projet inclut un utilitaire en ligne de commande pour envoyer des commandes spécifiques à une box SFR. Il est utile pour tester les drivers et contrôler une box directement depuis le terminal.
 
-**Location:** `scripts/sfr_tv_box_remote.py`
+**Emplacement :** `scripts/sfr_tv_box_remote.py`
 
-**Usage:**
+**Utilisation :**
 
-To run the script, execute the following command from the root of the project directory:
+Pour exécuter le script, lancez la commande suivante depuis la racine du répertoire du projet :
 
 ```bash
-PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip <YOUR_BOX_IP> <COMMAND>
+PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip <ADRESSE_IP_DE_VOTRE_BOX> <COMMANDE>
 ```
 
-**Main Options:**
+**Options Principales :**
 
-*   `--ip <IP_ADDRESS>`: **Required.** The IP address of the set-top box.
-*   `--port <PORT_NUMBER>`: The port for the WebSocket connection (default: 8080).
-*   `--model <MODEL>`: The model of the box (default: STB8). Current supported models: `STB8`.
+*   `--ip <ADRESSE_IP>` : **Requis.** L'adresse IP de la box.
+*   `--port <NUMERO_DE_PORT>` : Le port pour la connexion WebSocket (par défaut : 8080).
+*   `--model <MODELE>` : Le modèle de la box (par défaut : STB8). Modèles supportés actuellement : `STB8`.
 
-**Commands:**
+**Commandes :**
 
-*   `SEND_KEY <KEY>`: Send a remote key press.
-    *   `<KEY>`: The name of the key to press (e.g., `POWER`, `HOME`, `NUM_5`). Valid keys correspond to the `KeyCode` enum in `sfr_tv_box_core/constants.py`.
-    *   *Example:* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 SEND_KEY POWER`
+*   `SEND_KEY <TOUCHE>` : Envoie une pression de touche de télécommande.
+    *   `<TOUCHE>` : Le nom de la touche à presser (par exemple, `POWER`, `HOME`, `NUM_5`). Les touches valides correspondent aux membres de l'énumération `KeyCode` dans `sfr_tv_box_core/constants.py`.
+    *   *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 SEND_KEY POWER`
 
-*   `GET_STATUS`: Get the current status of the box.
-    *   *Example:* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_STATUS`
+*   `GET_STATUS` : Obtient le statut actuel de la box.
+    *   *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_STATUS`
 
-*   `GET_VERSIONS`: Get version information from the box.
-    *   *Example:* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_VERSIONS`
+*   `GET_VERSIONS` : Obtient les informations de version de la box.
+    *   *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_VERSIONS`
 
-## 5. Development Setup
+## 5. Documentation du Projet
 
-To ensure code quality and consistency, this project uses `ruff` for linting and formatting, enforced by `pre-commit` hooks.
+Pour une analyse approfondie des spécifications du projet, de l'état d'avancement du développement et des structures de commandes détaillées, veuillez vous référer aux documents suivants :
 
-### A. Install Development Dependencies
+*   **[Spécifications et Roadmap du Projet](PROJECT_SPEC.md)** : Définit l'architecture globale, le backlog fonctionnel et les standards de développement.
+*   **[Avancement du Projet et Prochaines Étapes](PROGRESS.md)** : Suit le statut actuel, les tâches terminées et les phases de développement à venir.
+*   **[Documentation Technique (docs/)](docs/)** : Contient les spécifications détaillées pour les commandes, les mécanismes de découverte et d'autres aspects techniques.
 
-First, ensure you have `pip` installed and then install the development dependencies:
+    *   [Spécification des Commandes et Payloads](docs/COMMANDS_SPEC.md)
+    *   [Spécification du Protocole de Découverte](docs/DISCOVERY_SPEC.md)
+
+## 6. Configuration de Développement
+
+Pour garantir la qualité et la cohérence du code, ce projet utilise `ruff` pour le linting et le formatage, appliqués par des hooks `pre-commit`.
+
+### A. Installation des Dépendances de Développement
+
+Tout d'abord, assurez-vous que `pip` est installé, puis installez les dépendances de développement :
 
 ```bash
 pip install ".[dev]"
 ```
 
-### B. Setup Pre-Commit Hooks
+### B. Configuration des Hooks Pre-Commit
 
-Once the development dependencies are installed, set up the pre-commit hooks:
+Une fois les dépendances de développement installées, configurez les hooks `pre-commit` :
 
 ```bash
 pre-commit install
 ```
 
-This command will install the Git hooks that will automatically run `ruff` (linter and formatter) every time you commit changes. This helps catch issues before they become part of the commit history.
+Cette commande installera les hooks Git qui exécuteront automatiquement `ruff` (linter et formateur) à chaque fois que vous ferez un commit. Cela permet de détecter les problèmes avant qu'ils ne fassent partie de l'historique des commits.
 
-## 6. Testing
+## 7. Tests
 
-This project uses `pytest` for unit testing. The tests are located in the `tests/` directory.
+Ce projet utilise `pytest` pour les tests unitaires. Les tests sont situés dans le répertoire `tests/`.
 
-To run the tests, ensure you have the necessary dependencies installed (`pytest`, `pytest-asyncio`, `websockets`, `zeroconf`).
+Pour exécuter les tests, assurez-vous d'avoir installé les dépendances nécessaires (`pytest`, `pytest-asyncio`, `websockets`, `zeroconf`).
 
-**Note:** The `PYTHONPATH=.` prefix is required to ensure that `pytest` can find the `sfr_box_core` module from the project root.
+**Note :** Le préfixe `PYTHONPATH=.` est nécessaire pour que `pytest` puisse trouver le module `sfr_tv_box_core` depuis la racine du projet.
 
-### A. Run All Tests
+### A. Exécuter tous les tests
 
-To run the entire test suite:
+Pour exécuter la suite de tests complète :
 
 ```bash
 PYTHONPATH=. pytest -v tests/
 ```
 
-### B. Run a Specific Test File
+### B. Exécuter un fichier de test spécifique
 
-To run only the tests contained within a single file:
+Pour exécuter uniquement les tests contenus dans un seul fichier :
 
 ```bash
 PYTHONPATH=. pytest -v tests/test_discovery.py
 ```
 
-### C. Run a Specific Test
+### C. Exécuter un test spécifique
 
-To run a single test by its name:
+Pour exécuter un seul test par son nom :
 
 ```bash
 PYTHONPATH=. pytest -v tests/test_discovery.py::test_discover_single_box_async
