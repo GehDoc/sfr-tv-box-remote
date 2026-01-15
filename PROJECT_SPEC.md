@@ -57,32 +57,4 @@ Le projet utilise le **Design Pattern "Strategy"** appliqué aux Payloads JSON, 
 
 ## 6. Plan d'Exécution (Séquencement)
 
-Le projet est découpé en phases chronologiques. Chaque phase doit être validée (code + tests) avant de passer à la suivante.
-
-### Phase 1 : Socle et Connectivité (Fondations)
-
-1. **Step 1.1** : Implémentation du `base_driver.py` (Cœur WebSocket + Reconnexion).
-2. **Step 1.2** : Implémentation de `discovery.py` (Listener Avahi pour identifier V7/V8/LaBox/EVO).
-3. **Step 1.3** : Définir la structure des commandes et créer `sfr_box_core/constants.py` pour les valeurs de commandes partagées.
-
-### Phase 2 : Drivers Spécifiques (Intelligence)
-
-1. **Phase 2.1** : Driver v8_driver.py - *Priorité Haute*
-2. **Phase 2.2** : Driver v7_driver.py - *Priorité Moyenne*
-
-### Phase 3 : Intégration Home Assistant
-
-1. **Step 3.1** : CLI Tool (`cli.py`) pour tests manuels.
-2. **Step 3.2** : Intégration Home Assistant (`media_player` & `remote`).
-3. **Step 3.3** : Blueprints UI Lovelace.
-
-### Phase 4 : Industrialisation & Publication
-
-1. **Phase 4.1** : CI (Workflows GitHub Actions) - **[x] Effectué**
-2. **Phase 4.2** : CD (Publication HACS)
-
-### Phase 5 : Drivers Anciens & Cas Spécifiques
-
-1. **Phase 5.1** : Driver labox_driver.py - *Priorité Basse*
-2. **Phase 5.2** : Implémenter la découverte EVO (Router API via MAC) - *Priorité Basse*
-3. **Phase 5.3** : Driver evo_driver.py - *Priorité Basse*
+Le plan d'exécution détaillé et le statut d'avancement du projet sont maintenus dans le fichier [PROGRESS.md](./PROGRESS.md).
