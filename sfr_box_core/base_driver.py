@@ -103,6 +103,15 @@ class BaseSFRBoxDriver(ABC):
         if listener in self._listeners:
             self._listeners.remove(listener)
 
+    def set_message_callback(self, callback: Callable[[str], None]) -> None:
+        """Sets a single callback for incoming messages, clearing previous listeners.
+
+        Args:
+            callback: The callback function to handle incoming messages.
+        """
+        self._listeners.clear()
+        self.register_listener(callback)
+
     async def _listen_for_messages(self) -> None:
         """Listens for incoming messages from the WebSocket."""
         if not self._websocket:

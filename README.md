@@ -18,7 +18,7 @@ Bibliothèque Python 3.12+ autonome (Délivrables 1 & 2).
   - `labox_driver.py` : Définit et implémente les commandes spécifiques à LaBox.
   - `constants.py` : Contient des constantes partagées par la librairie, incluant potentiellement les valeurs de certains paramètres de commande (ex: KeyCodes utilisés par une commande `send_key`).
 - **Discovery** : Listener Avahi (`discovery.py`) pour l'identification de la version et l'attribution du bon driver.
-- **CLI** : Outil de pilotage en ligne de commande (`cli.py`).
+- **CLI** : Outil de pilotage en ligne de commande (`sfr_box_remote.py`).
 
 ### B. Intégration Home Assistant (`custom_components/sfr_box_remote/`)
 
@@ -65,13 +65,44 @@ The script will scan the network for 10 seconds by default.
 
 **Options:**
 
-- `-t <seconds>`, `--timeout <seconds>`: Specify the duration of the network scan in seconds.
+*   `-t <seconds>`, `--timeout <seconds>`: Specify the duration of the network scan in seconds.
 
     *Example (scan for 5 seconds):*
-
     ```bash
     python scripts/run_discovery.py -t 5
     ```
+
+### SFR Box Remote Control Script
+
+The project includes a command-line utility to send specific commands to an SFR box. This is useful for testing drivers and controlling a box directly from the terminal.
+
+**Location:** `scripts/sfr_box_remote.py`
+
+**Usage:**
+
+To run the script, execute the following command from the root of the project directory:
+
+```bash
+PYTHONPATH=. python -m scripts.sfr_box_remote --ip <YOUR_BOX_IP> <COMMAND>
+```
+
+**Main Options:**
+
+*   `--ip <IP_ADDRESS>`: **Required.** The IP address of the set-top box.
+*   `--port <PORT_NUMBER>`: The port for the WebSocket connection (default: 8080).
+*   `--model <MODEL>`: The model of the box (default: STB8). Current supported models: `STB8`.
+
+**Commands:**
+
+*   `SEND_KEY <KEY>`: Send a remote key press.
+    *   `<KEY>`: The name of the key to press (e.g., `POWER`, `HOME`, `NUM_5`). Valid keys correspond to the `KeyCode` enum in `sfr_box_core/constants.py`.
+    *   *Example:* `PYTHONPATH=. python -m scripts.sfr_box_remote --ip 192.168.1.123 SEND_KEY POWER`
+
+*   `GET_STATUS`: Get the current status of the box.
+    *   *Example:* `PYTHONPATH=. python -m scripts.sfr_box_remote --ip 192.168.1.123 GET_STATUS`
+
+*   `GET_VERSIONS`: Get version information from the box.
+    *   *Example:* `PYTHONPATH=. python -m scripts.sfr_box_remote --ip 192.168.1.123 GET_VERSIONS`
 
 ## 5. Development Setup
 

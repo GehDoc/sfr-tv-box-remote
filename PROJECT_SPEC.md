@@ -32,7 +32,7 @@ Le projet utilise le **Design Pattern "Strategy"** appliqué aux Payloads JSON, 
 ## 3. Déliverables
 
 1. **Librairie Core (Python)** : Bibliothèque asynchrone autonome.
-2. **CLI Tool** : Utilitaire `sfr-control` pour test de connexion et envoi de commandes en terminal.
+2. **CLI Tool** : Utilitaire `scripts/sfr_box_remote.py` pour test de connexion et envoi de commandes en terminal.
 3. **Intégration Home Assistant** : Custom Component (`media_player` & `remote`).
 4. **HACS Repository** : Structure conforme pour installation simplifiée.
 5. **Dashboard UI** : Templates Lovelace (YAML) pour une interface mobile/tablette.

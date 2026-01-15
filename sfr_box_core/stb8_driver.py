@@ -85,14 +85,14 @@ class _STB8CommandBuilder:
         }
 
 
-class V8Driver(BaseSFRBoxDriver):
+class STB8Driver(BaseSFRBoxDriver):
     """Driver for the STB8.
 
     Implements the command building and response parsing specific to this model.
     """
 
     def __init__(self, host: str, port: int = 8080, device_id: str = "default-stb8"):
-        """Initialize the V8Driver.
+        """Initialize the STB8Driver.
 
         Args:
             host: The hostname or IP address of the SFR Box.
