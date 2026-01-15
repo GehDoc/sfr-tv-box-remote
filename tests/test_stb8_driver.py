@@ -5,10 +5,10 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from sfr_box_core.constants import CommandType
-from sfr_box_core.constants import KeyCode
-from sfr_box_core.stb8_driver import STB8Driver
-from sfr_box_core.stb8_driver import _STB8CommandBuilder
+from sfr_tv_box_core.constants import CommandType
+from sfr_tv_box_core.constants import KeyCode
+from sfr_tv_box_core.stb8_driver import STB8Driver
+from sfr_tv_box_core.stb8_driver import _STB8CommandBuilder
 
 
 @pytest.fixture

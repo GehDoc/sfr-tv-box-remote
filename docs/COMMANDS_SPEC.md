@@ -7,7 +7,7 @@ This document defines the command and control architecture for all supported SFR
 The control system is built on two core principles:
 
 -   **Command Abstraction**: A common set of abstract command names (defined by the `CommandType` enum in `sfr_box_core/constants.py`) will be used across the library (e.g., `SEND_KEY`, `GET_STATUS`). This provides a consistent API for any client using the library, regardless of the box model being controlled.
--   **Polymorphic Implementation (Strategy Pattern)**: Each box-specific driver (`v8_driver.py`, `v7_driver.py`, etc.) is responsible for translating these abstract commands into the correct JSON payload required by its specific hardware model. The `base_driver.py` will provide the common interface for executing these commands (e.g., `send_command(command, **params)`).
+-   **Polymorphic Implementation (Strategy Pattern)**: Each box-specific driver (`stb8_driver.py`, `stb7_driver.py`, `labox_driver.py`, etc.) is responsible for translating these abstract commands into the correct JSON payload required by its specific hardware model. The `base_driver.py` will provide the common interface for executing these commands (e.g., `send_command(command, **params)`).
 
 ### 3.1 KeyCodes
 The abstract `KeyCode` names (e.g., `POWER`, `VOL_UP`) are shared across box models. However, the *values* sent in the payload are different. This is a perfect use case for a polymorphic implementation. A shared `KeyCode` Enum will be used, and each driver will map its enum members to the correct value (string or int).

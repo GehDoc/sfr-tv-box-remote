@@ -14,10 +14,10 @@ from typing import Type
 
 # Ensure the script can find the sfr_box_core module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from sfr_box_core.base_driver import BaseSFRBoxDriver
-from sfr_box_core.constants import CommandType
-from sfr_box_core.constants import KeyCode
-from sfr_box_core.stb8_driver import STB8Driver
+from sfr_tv_box_core.base_driver import BaseSFRBoxDriver
+from sfr_tv_box_core.constants import CommandType
+from sfr_tv_box_core.constants import KeyCode
+from sfr_tv_box_core.stb8_driver import STB8Driver
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -34,7 +34,7 @@ DRIVER_MAP: Dict[str, Type[BaseSFRBoxDriver]] = {
 
 async def main() -> None:
     """Main function to parse arguments and run a single command."""
-    parser = argparse.ArgumentParser(description="A CLI to control SFR set-top boxes.")
+    parser = argparse.ArgumentParser(prog="sfr_tv_box_remote.py", description="A CLI to control SFR TV boxes.")
     parser.add_argument("--ip", required=True, help="IP address of the set-top box.")
     parser.add_argument("--port", type=int, default=8080, help="Port for the WebSocket connection (default: 8080).")
     parser.add_argument("--model", choices=DRIVER_MAP.keys(), default="STB8", help="The model of the box (default: STB8).")

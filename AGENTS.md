@@ -1,4 +1,4 @@
-# Protocole et Contexte du Projet SFR-Box-Remote
+# Protocole et Contexte du Projet SFR-TV-Box-Remote
 
 Ce document définit les règles d'interaction, l'architecture technique et la méthodologie de développement pour tout agent IA travaillant sur ce dépôt.
 
@@ -14,7 +14,7 @@ Le projet consiste à développer un pilote professionnel pour les décodeurs SF
 ## 2. Structure du Repository
 
 ```text
-sfr-box-remote/
+sfr-tv-box-remote/
 ├── .github/              # Workflows CI/CD (GitHub Actions)
 ├── scripts/              # Répertoire de tooling
 │   └── init_project.sh   # Votre script d'initialisation
@@ -24,16 +24,18 @@ sfr-box-remote/
 ├── PROGRESS.md           # Journal de suivi et état d'avancement (Passage de relais)
 ├── README.md             # Présentation et guide utilisateur
 ├── pyproject.toml        # Dépendances (websockets, zeroconf, aiohttp)
-├── sfr_box_core/         # DÉLIVRABLE : Librairie Python autonome
+├── sfr_tv_box_core/         # DÉLIVRABLE : Librairie Python autonome
 │   ├── __init__.py
 │   ├── base_driver.py    # Classe ABC : Gestion commune du WebSocket
-│   ├── v8_driver.py      # Payloads JSON spécifiques à la Box 8
-│   ├── v7_driver.py      # Payloads JSON spécifiques à la Box 7
+│   ├── stb8_driver.py      # Payloads JSON spécifiques à la Box 8
+│   ├── stb7_driver.py      # Payloads JSON spécifiques à la Box 7
 │   ├── labox_driver.py   # Payloads JSON spécifiques à LaBox
 │   ├── discovery.py      # Listener Avahi/mDNS (Détection auto)
 │   └── constants.py      # KeyCodes et Endpoints issus de l'APK
 ├── custom_components/    # DÉLIVRABLE : Intégration Home Assistant
 │   └── sfr_box_remote/   # Manifest, media_player.py, remote.py
+├── scripts/
+│   └── sfr_tv_box_remote.py    # CLI Tool (1-shot / Mode interactif)
 ├── ui/                   # DÉLIVRABLE : Templates Lovelace (YAML)
 └── tests/                # Suite de tests Pytest (Mocks WebSocket)
 
@@ -54,7 +56,7 @@ Tout agent doit opérer selon le cycle suivant :
 
 * **Gestion Réseau** : Implémenter obligatoirement une reconnexion automatique avec backoff exponentiel dans `base_driver.py`.
 * **Logging** : Chaque interaction WebSocket doit être tracée via le module `logging`.
-* **Modularité** : La librairie `sfr_box_core` ne doit avoir aucune dépendance vers les bibliothèques internes de Home Assistant.
+* **Modularité** : La librairie `sfr_tv_box_core` ne doit avoir aucune dépendance vers les bibliothèques internes de Home Assistant.
 
 ## 5. Continuité et Passage de Relais (Stockage d'État)
 

@@ -1,4 +1,4 @@
-# Spécifications et Roadmap du Projet SFR Box Remote
+# Spécifications et Roadmap du Projet SFR TV Box Remote
 
 Ce document définit les fonctionnalités, l'architecture et les standards de qualité du projet, basés sur l'analyse technique de l'APK SFR TV.
 
@@ -22,17 +22,17 @@ Le projet utilise le **Design Pattern "Strategy"** appliqué aux Payloads JSON, 
 - **WebSocket Core & Gestion des Commandes** :
   - `base_driver.py` : Classe mère `SFRBaseDriver` gérant la connexion persistante, le heartbeat, la file d'attente des messages, et fournissant une interface générique pour l'envoi et la réception de commandes (ex: `send_command(command, **params)`). Elle définit également la structure pour récupérer les commandes disponibles (`get_available_commands()`) pour chaque driver spécialisé.
 - **Stratégies de Commandes Spécifiques (Drivers)** : Chaque driver implémente les commandes spécifiques à son modèle de box.
-  - `v8_driver.py` : Définit et génère les commandes pour la Box TV 8.
-  - `v7_driver.py` : Définit et génère les commandes pour la Box TV 7.
+  - `stb8_driver.py` : Définit et génère les commandes pour la Box TV 8.
+  - `stb7_driver.py` : Définit et génère les commandes pour la Box TV 7.
   - `labox_driver.py` : Définit et génère les commandes pour LaBox.
   - `evo_driver.py` : Définit et génère les commandes pour le modèle EVO.
 - **Factory/Registry** : Instanciation du driver spécifique après identification (mDNS, DNS, API Router) par le listener.
-- **`constants.py`** : Centralise les constantes partagées par la librairie, incluant les valeurs de certains paramètres de commande (ex: KeyCodes utilisés par une commande `send_key`).
+- **`sfr_tv_box_core/constants.py`** : Centralise les constantes partagées par la librairie, incluant les valeurs de certains paramètres de commande (ex: KeyCodes utilisés par une commande `send_key`).
 
 ## 3. Déliverables
 
 1. **Librairie Core (Python)** : Bibliothèque asynchrone autonome.
-2. **CLI Tool** : Utilitaire `scripts/sfr_box_remote.py` pour test de connexion et envoi de commandes en terminal.
+2. **CLI Tool** : Utilitaire `scripts/sfr_tv_box_remote.py` pour test de connexion et envoi de commandes en terminal.
 3. **Intégration Home Assistant** : Custom Component (`media_player` & `remote`).
 4. **HACS Repository** : Structure conforme pour installation simplifiée.
 5. **Dashboard UI** : Templates Lovelace (YAML) pour une interface mobile/tablette.

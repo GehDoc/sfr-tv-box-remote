@@ -7,8 +7,8 @@ from unittest.mock import patch
 import pytest
 from zeroconf import ServiceInfo
 
-from sfr_box_core.discovery import _DiscoveryListener
-from sfr_box_core.discovery import async_discover_boxes
+from sfr_tv_box_core.discovery import _DiscoveryListener
+from sfr_tv_box_core.discovery import async_discover_boxes
 
 
 @pytest.fixture
@@ -25,7 +25,7 @@ def mock_async_zeroconf():
     mock_aiozc.zeroconf = mock_zc_instance
     mock_aiozc.async_close = AsyncMock()
 
-    with patch("sfr_box_core.discovery.AsyncZeroconf", return_value=mock_aiozc) as _:
+    with patch("sfr_tv_box_core.discovery.AsyncZeroconf", return_value=mock_aiozc) as _:
         yield mock_aiozc, mock_service_info
 
 
@@ -36,7 +36,7 @@ async def test_discover_single_box_async(mock_async_zeroconf, monkeypatch):
 
     mock_browser = MagicMock(async_cancel=AsyncMock())
     monkeypatch.setattr(
-        "sfr_box_core.discovery.AsyncServiceBrowser",
+        "sfr_tv_box_core.discovery.AsyncServiceBrowser",
         lambda *args, **kwargs: mock_browser,
     )
 
@@ -45,7 +45,7 @@ async def test_discover_single_box_async(mock_async_zeroconf, monkeypatch):
     # In tests, we call the internal async handler directly
     await listener._async_add_handler(mock_aiozc.zeroconf, "_ws._tcp.local.", "STB8-aabbcc.local.")
 
-    monkeypatch.setattr("sfr_box_core.discovery._DiscoveryListener", lambda: listener)
+    monkeypatch.setattr("sfr_tv_box_core.discovery._DiscoveryListener", lambda: listener)
 
     result = await async_discover_boxes(timeout=0.1)
 
@@ -62,7 +62,7 @@ async def test_discover_multiple_boxes_async(mock_async_zeroconf, monkeypatch):
     mock_aiozc, mock_service_info = mock_async_zeroconf
 
     monkeypatch.setattr(
-        "sfr_box_core.discovery.AsyncServiceBrowser",
+        "sfr_tv_box_core.discovery.AsyncServiceBrowser",
         lambda *args, **kwargs: MagicMock(async_cancel=AsyncMock()),
     )
 
@@ -81,7 +81,7 @@ async def test_discover_multiple_boxes_async(mock_async_zeroconf, monkeypatch):
     # Simulate finding an unrelated service that should be ignored
     await listener._async_add_handler(mock_aiozc.zeroconf, "_ws._tcp.local.", "OtherDevice.local.")
 
-    monkeypatch.setattr("sfr_box_core.discovery._DiscoveryListener", lambda: listener)
+    monkeypatch.setattr("sfr_tv_box_core.discovery._DiscoveryListener", lambda: listener)
 
     result = await async_discover_boxes(timeout=0.1)
 

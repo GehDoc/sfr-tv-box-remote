@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from sfr_box_core.discovery import DiscoveredBox
+from sfr_tv_box_core.discovery import DiscoveredBox
 
 # Import the script's main function to test it directly
 from scripts.run_discovery import main as run_discovery_main

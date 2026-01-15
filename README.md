@@ -1,4 +1,4 @@
-# SFR Box Remote (Unified WebSocket Driver)
+# SFR TV Box Remote (Unified WebSocket Driver)
 
 Pilotage professionnel "Full IP" des décodeurs SFR (V8, V7, LaBox) pour Home Assistant. Ce projet utilise un transport WebSocket bidirectionnel unique, identifié par reverse-engineering de l'APK SFR TV, pour toutes les générations de matériel.
 
@@ -6,7 +6,7 @@ Pilotage professionnel "Full IP" des décodeurs SFR (V8, V7, LaBox) pour Home As
 
 Le projet est organisé en monorepo pour garantir la cohérence entre la bibliothèque de pilotage et l'intégration domotique.
 
-### A. Librairie Core (`sfr_box_core/`)
+### A. Librairie Core (`sfr_tv_box_core/`)
 
 Bibliothèque Python 3.12+ autonome (Délivrables 1 & 2).
 
@@ -18,7 +18,7 @@ Bibliothèque Python 3.12+ autonome (Délivrables 1 & 2).
   - `labox_driver.py` : Définit et implémente les commandes spécifiques à LaBox.
   - `constants.py` : Contient des constantes partagées par la librairie, incluant potentiellement les valeurs de certains paramètres de commande (ex: KeyCodes utilisés par une commande `send_key`).
 - **Discovery** : Listener Avahi (`discovery.py`) pour l'identification de la version et l'attribution du bon driver.
-- **CLI** : Outil de pilotage en ligne de commande (`sfr_box_remote.py`).
+- **CLI** : Outil de pilotage en ligne de commande (`sfr_tv_box_remote.py`).
 
 ### B. Intégration Home Assistant (`custom_components/sfr_box_remote/`)
 
@@ -72,18 +72,18 @@ The script will scan the network for 10 seconds by default.
     python scripts/run_discovery.py -t 5
     ```
 
-### SFR Box Remote Control Script
+### SFR TV Box Remote Control Script
 
 The project includes a command-line utility to send specific commands to an SFR box. This is useful for testing drivers and controlling a box directly from the terminal.
 
-**Location:** `scripts/sfr_box_remote.py`
+**Location:** `scripts/sfr_tv_box_remote.py`
 
 **Usage:**
 
 To run the script, execute the following command from the root of the project directory:
 
 ```bash
-PYTHONPATH=. python -m scripts.sfr_box_remote --ip <YOUR_BOX_IP> <COMMAND>
+PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip <YOUR_BOX_IP> <COMMAND>
 ```
 
 **Main Options:**
@@ -95,14 +95,14 @@ PYTHONPATH=. python -m scripts.sfr_box_remote --ip <YOUR_BOX_IP> <COMMAND>
 **Commands:**
 
 *   `SEND_KEY <KEY>`: Send a remote key press.
-    *   `<KEY>`: The name of the key to press (e.g., `POWER`, `HOME`, `NUM_5`). Valid keys correspond to the `KeyCode` enum in `sfr_box_core/constants.py`.
-    *   *Example:* `PYTHONPATH=. python -m scripts.sfr_box_remote --ip 192.168.1.123 SEND_KEY POWER`
+    *   `<KEY>`: The name of the key to press (e.g., `POWER`, `HOME`, `NUM_5`). Valid keys correspond to the `KeyCode` enum in `sfr_tv_box_core/constants.py`.
+    *   *Example:* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 SEND_KEY POWER`
 
 *   `GET_STATUS`: Get the current status of the box.
-    *   *Example:* `PYTHONPATH=. python -m scripts.sfr_box_remote --ip 192.168.1.123 GET_STATUS`
+    *   *Example:* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_STATUS`
 
 *   `GET_VERSIONS`: Get version information from the box.
-    *   *Example:* `PYTHONPATH=. python -m scripts.sfr_box_remote --ip 192.168.1.123 GET_VERSIONS`
+    *   *Example:* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_VERSIONS`
 
 ## 5. Development Setup
 

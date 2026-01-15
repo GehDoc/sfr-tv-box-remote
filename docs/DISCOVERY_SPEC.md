@@ -5,9 +5,9 @@
 This document outlines the proposed mechanism for discovering all supported SFR Box models (STB8, STB7, LaBox, and EVO) on the local network. The goal is to create a robust process that reliably gathers all necessary information to establish a connection and display the device in a user interface.
 
 **Development Priority:** The implementation will focus on a Proof of Concept for each model in the following order of priority:
-1.  **STB8**
-2.  **STB7**
-3.  **LaBox & EVO**
+1.  **stb8_driver.py**
+2.  **stb7_driver.py**
+3.  **labox_driver.py & evo_driver.py**
 
 ## 2. Proposed Data Structure
 

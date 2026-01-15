@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 import pytest
 import websockets
 
-from sfr_box_core.base_driver import BaseSFRBoxDriver
+from sfr_tv_box_core.base_driver import BaseSFRBoxDriver
 
 
 # Since we are testing the abstract base class, we need a concrete implementation.

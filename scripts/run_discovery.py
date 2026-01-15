@@ -9,7 +9,7 @@ import sys
 
 # Ensure the script can find the sfr_box_core module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from sfr_box_core.discovery import async_discover_boxes  # noqa: E402
+from sfr_tv_box_core.discovery import async_discover_boxes  # noqa: E402
 
 # Set up basic logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")

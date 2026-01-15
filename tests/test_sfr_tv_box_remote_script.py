@@ -1,4 +1,4 @@
-"""Tests for the sfr_box_remote.py command-line script using a dedicated TestDriver."""
+"""Tests for the sfr_tv_box_remote.py command-line script using a dedicated TestDriver."""
 
 import asyncio
 import logging
@@ -7,11 +7,11 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from sfr_box_core.base_driver import BaseSFRBoxDriver  # Import BaseSFRBoxDriver
-from sfr_box_core.constants import CommandType
-from sfr_box_core.constants import KeyCode
+from sfr_tv_box_core.base_driver import BaseSFRBoxDriver  # Import BaseSFRBoxDriver
+from sfr_tv_box_core.constants import CommandType
+from sfr_tv_box_core.constants import KeyCode
 
-from scripts.sfr_box_remote import main as sfr_box_remote_main
+from scripts.sfr_tv_box_remote import main as sfr_tv_box_remote_main
 
 
 class _TestDriver(BaseSFRBoxDriver):  # Renamed to _TestDriver
@@ -44,8 +44,9 @@ class _TestDriver(BaseSFRBoxDriver):  # Renamed to _TestDriver
         if self._callback:
             # Schedule the callback to be run by the event loop,
             # don't call it directly.
-            asyncio.get_running_loop().call_soon(self._callback, '{"result": "OK", "data": "test_response"}')
-        await asyncio.sleep(0)  # Yield control
+            asyncio.get_running_loop().call_soon(self._callback, '{"result": "OK", "data": "dummy_response"}')
+        # Yield control to allow the scheduled callback to run.
+        await asyncio.sleep(0)
 
 
 @pytest.fixture
@@ -82,20 +83,20 @@ def mock_driver_map_with_test_driver(monkeypatch):
         mock_instance.device_id = device_id
         return mock_instance
 
-    monkeypatch.setattr("scripts.sfr_box_remote.DRIVER_MAP", {"STB8": mock_driver_factory})
+    monkeypatch.setattr("scripts.sfr_tv_box_remote.DRIVER_MAP", {"STB8": mock_driver_factory})
     return mock_instance  # Fixture returns the configured mock instance
 
 
 @pytest.mark.asyncio
-async def test_sfr_box_remote_send_key(mock_driver_map_with_test_driver, monkeypatch, caplog):
+async def test_sfr_tv_box_remote_send_key(mock_driver_map_with_test_driver, monkeypatch, caplog):
     """Test the CLI for a 'send_key' command using TestDriver."""
     caplog.set_level(logging.INFO)
     test_driver_instance = mock_driver_map_with_test_driver
 
-    test_argv = ["sfr_box_remote.py", "--ip", "1.2.3.4", "SEND_KEY", "POWER"]
+    test_argv = ["sfr_tv_box_remote.py", "--ip", "1.2.3.4", "SEND_KEY", "POWER"]
     monkeypatch.setattr("sys.argv", test_argv)
 
-    await sfr_box_remote_main()
+    await sfr_tv_box_remote_main()
 
     test_driver_instance.start.assert_awaited_once()  # Verify start was called
     test_driver_instance.send_command.assert_awaited_once_with(CommandType.SEND_KEY, key=KeyCode.POWER)
@@ -105,15 +106,15 @@ async def test_sfr_box_remote_send_key(mock_driver_map_with_test_driver, monkeyp
 
 
 @pytest.mark.asyncio
-async def test_sfr_box_remote_get_status(mock_driver_map_with_test_driver, monkeypatch, caplog):
+async def test_sfr_tv_box_remote_get_status(mock_driver_map_with_test_driver, monkeypatch, caplog):
     """Test the CLI for a 'get_status' command using TestDriver."""
     caplog.set_level(logging.INFO)
     test_driver_instance = mock_driver_map_with_test_driver
 
-    test_argv = ["sfr_box_remote.py", "--ip", "1.2.3.4", "GET_STATUS"]
+    test_argv = ["sfr_tv_box_remote.py", "--ip", "1.2.3.4", "GET_STATUS"]
     monkeypatch.setattr("sys.argv", test_argv)
 
-    await sfr_box_remote_main()
+    await sfr_tv_box_remote_main()
 
     test_driver_instance.start.assert_awaited_once()
     test_driver_instance.send_command.assert_awaited_once_with(CommandType.GET_STATUS)
@@ -122,19 +123,19 @@ async def test_sfr_box_remote_get_status(mock_driver_map_with_test_driver, monke
 
 
 @pytest.mark.asyncio
-async def test_sfr_box_remote_unsupported_model(monkeypatch, capsys):
+async def test_sfr_tv_box_remote_unsupported_model(monkeypatch, capsys):
     """Test the CLI argument parsing with an unsupported model."""
     # We patch the DRIVER_MAP itself to return an empty dict of supported models
     monkeypatch.setattr(
-        "scripts.sfr_box_remote.DRIVER_MAP",
+        "scripts.sfr_tv_box_remote.DRIVER_MAP",
         {"STB8_UNSUPPORTED": lambda host, port, device_id="default-test-stb8": None},
     )
 
-    test_argv = ["sfr_box_remote.py", "--ip", "1.2.3.4", "--model", "STB7", "GET_STATUS"]
+    test_argv = ["sfr_tv_box_remote.py", "--ip", "1.2.3.4", "--model", "STB7", "GET_STATUS"]
     monkeypatch.setattr("sys.argv", test_argv)
 
     with pytest.raises(SystemExit):
-        await sfr_box_remote_main()
+        await sfr_tv_box_remote_main()
 
     # Check stderr which is where argparse prints errors
     outerr = capsys.readouterr()
