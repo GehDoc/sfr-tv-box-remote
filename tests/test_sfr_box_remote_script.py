@@ -1,4 +1,5 @@
 """Tests for the sfr_box_remote.py command-line script using a dedicated TestDriver."""
+
 import asyncio
 import logging
 from typing import Any  # Import Any
@@ -43,9 +44,7 @@ class _TestDriver(BaseSFRBoxDriver):  # Renamed to _TestDriver
         if self._callback:
             # Schedule the callback to be run by the event loop,
             # don't call it directly.
-            asyncio.get_running_loop().call_soon(
-                self._callback, '{"result": "OK", "data": "test_response"}'
-            )
+            asyncio.get_running_loop().call_soon(self._callback, '{"result": "OK", "data": "test_response"}')
         await asyncio.sleep(0)  # Yield control
 
 
@@ -68,9 +67,7 @@ def mock_driver_map_with_test_driver(monkeypatch):
 
     async def send_command_side_effect(*args, **kwargs):
         if captured_callback:
-            asyncio.get_running_loop().call_soon(
-                captured_callback, '{"result": "OK", "data": "dummy_response"}'
-            )
+            asyncio.get_running_loop().call_soon(captured_callback, '{"result": "OK", "data": "dummy_response"}')
         await asyncio.sleep(0)
 
     mock_instance.send_command.side_effect = send_command_side_effect
@@ -85,9 +82,7 @@ def mock_driver_map_with_test_driver(monkeypatch):
         mock_instance.device_id = device_id
         return mock_instance
 
-    monkeypatch.setattr(
-        "scripts.sfr_box_remote.DRIVER_MAP", {"STB8": mock_driver_factory}
-    )
+    monkeypatch.setattr("scripts.sfr_box_remote.DRIVER_MAP", {"STB8": mock_driver_factory})
     return mock_instance  # Fixture returns the configured mock instance
 
 
@@ -103,9 +98,7 @@ async def test_sfr_box_remote_send_key(mock_driver_map_with_test_driver, monkeyp
     await sfr_box_remote_main()
 
     test_driver_instance.start.assert_awaited_once()  # Verify start was called
-    test_driver_instance.send_command.assert_awaited_once_with(
-        CommandType.SEND_KEY, key=KeyCode.POWER
-    )
+    test_driver_instance.send_command.assert_awaited_once_with(CommandType.SEND_KEY, key=KeyCode.POWER)
     test_driver_instance.stop.assert_awaited_once()  # Verify stop was called
     assert "Received response" in caplog.text
     assert "dummy_response" in caplog.text
@@ -123,9 +116,7 @@ async def test_sfr_box_remote_get_status(mock_driver_map_with_test_driver, monke
     await sfr_box_remote_main()
 
     test_driver_instance.start.assert_awaited_once()
-    test_driver_instance.send_command.assert_awaited_once_with(
-        CommandType.GET_STATUS
-    )
+    test_driver_instance.send_command.assert_awaited_once_with(CommandType.GET_STATUS)
     test_driver_instance.stop.assert_awaited_once()
     assert "Received response" in caplog.text
 

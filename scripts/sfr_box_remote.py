@@ -3,6 +3,7 @@
 This script provides a way to send single commands to a discovered box
 to test and control it from the command line.
 """
+
 import argparse
 import asyncio
 import logging
@@ -12,7 +13,7 @@ from typing import Dict
 from typing import Type
 
 # Ensure the script can find the sfr_box_core module
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from sfr_box_core.base_driver import BaseSFRBoxDriver
 from sfr_box_core.constants import CommandType
 from sfr_box_core.constants import KeyCode
