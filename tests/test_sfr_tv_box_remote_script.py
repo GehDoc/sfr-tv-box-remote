@@ -59,17 +59,17 @@ def mock_driver_map_with_test_driver(monkeypatch):
     mock_instance = AsyncMock(spec=_TestDriver)  # Use _TestDriver spec
 
     # Configure the mock_instance to behave like a _TestDriver
-    captured_callback = None
+    # Attach the captured callback directly to the mock_instance for test access
+    mock_instance._callback = None
 
     def set_callback_side_effect(cb):
-        nonlocal captured_callback
-        captured_callback = cb
+        mock_instance._callback = cb
 
     mock_instance.set_message_callback.side_effect = set_callback_side_effect
 
     async def send_command_side_effect(*args, **kwargs):
-        if captured_callback:
-            asyncio.get_running_loop().call_soon(captured_callback, '{"result": "OK", "data": "dummy_response"}')
+        if mock_instance._callback:
+            asyncio.get_running_loop().call_soon(mock_instance._callback, '{"result": "OK", "data": "dummy_response"}')
         await asyncio.sleep(0)
 
     mock_instance.send_command.side_effect = send_command_side_effect
@@ -141,3 +141,47 @@ async def test_sfr_tv_box_remote_unsupported_model(monkeypatch, capsys):
     # Check stderr which is where argparse prints errors
     outerr = capsys.readouterr()
     assert "invalid choice: 'STB7'" in outerr.err
+
+
+@pytest.mark.asyncio
+async def test_sfr_tv_box_remote_listen_mode(mock_driver_map_with_test_driver, monkeypatch, caplog):
+    """Test the CLI for 'listen' command."""
+    caplog.set_level(logging.INFO)
+    test_driver_instance = mock_driver_map_with_test_driver
+
+    test_argv = ["sfr_tv_box_remote.py", "--ip", "1.2.3.4", "listen"]
+    monkeypatch.setattr("sys.argv", test_argv)
+
+    # Store a reference to the original asyncio.sleep
+    original_asyncio_sleep = asyncio.sleep
+
+    # Mock asyncio.sleep to break the loop after first call
+    sleep_call_count = 0
+
+    async def mock_sleep_side_effect(delay):
+        nonlocal sleep_call_count
+        sleep_call_count += 1
+        if sleep_call_count == 1 and delay == 3600:
+            # On first 3600 sleep, call the callback and then break
+            if test_driver_instance._callback:
+                test_driver_instance._callback("SIMULATED_INCOMING_MESSAGE")
+            raise asyncio.CancelledError
+        await original_asyncio_sleep(delay)
+
+    monkeypatch.setattr(asyncio, "sleep", AsyncMock(side_effect=mock_sleep_side_effect))
+
+    # Run the main function
+    try:
+        await sfr_tv_box_remote_main()
+    except asyncio.CancelledError:
+        pass
+
+    # Verify the lifecycle
+    test_driver_instance.start.assert_awaited_once()
+    test_driver_instance.set_message_callback.assert_called_once()
+    test_driver_instance.stop.assert_awaited_once()
+
+    # Verify the messages logged
+    assert "Successfully connected to 1.2.3.4" in caplog.text
+    assert "Listening for messages. Press Ctrl+C to stop." in caplog.text
+    assert "Received: SIMULATED_INCOMING_MESSAGE" in caplog.text

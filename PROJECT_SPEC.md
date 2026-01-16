@@ -32,7 +32,9 @@ Le projet utilise le **Design Pattern "Strategy"** appliqué aux Payloads JSON, 
 ## 3. Déliverables
 
 1. **Librairie Core (Python)** : Bibliothèque asynchrone autonome.
-2. **CLI Tool** : Utilitaire `scripts/sfr_tv_box_remote.py` pour test de connexion et envoi de commandes en terminal.
+2. **CLI Tool (Mode '1-shot' & Mode d'écoute)** : Utilitaire `scripts/sfr_tv_box_remote.py` pour :
+    - Envoyer des commandes ponctuelles (mode '1-shot') pour le test et le contrôle.
+    - Maintenir une connexion WebSocket persistante pour afficher les notifications et mises à jour d'état reçues de la box (mode d'écoute). Ce mode est essentiel pour le debugging et la compréhension des flux de communication bidirectionnels.
 3. **Intégration Home Assistant** : Custom Component (`media_player` & `remote`).
 4. **HACS Repository** : Structure conforme pour installation simplifiée.
 5. **Dashboard UI** : Templates Lovelace (YAML) pour une interface mobile/tablette.

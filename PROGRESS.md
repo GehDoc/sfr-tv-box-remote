@@ -1,6 +1,7 @@
 # PROGRESS.md : État d'avancement du projet
 
 ## 📊 État Global
+
 - **Phase actuelle** : Phase 2 (Implémentation des drivers)
 - **Dernier Step validé** : Phase 2.2 (sfr_tv_box_remote.py)
 
@@ -11,7 +12,8 @@
 - [x] **Step 1.3** : Définir la structure des commandes et créer `sfr_tv_box_core/constants.py` pour les valeurs de commandes partagées.
 - [x] **Phase 2.1** : stb8_driver.py - *Priorité Haute*
 - [x] **Phase 2.2** : sfr_tv_box_remote.py (Mode "1-shot") - *Priorité Haute*
-- [ ] **Phase 2.3** : stb7_driver.py - *Priorité Moyenne*
+- [i] **Phase 2.3** : Implémentation du mode d'écoute pour `sfr_tv_box_remote.py` - *Priorité Haute*
+- [ ] **Phase 2.4** : stb7_driver.py - *Priorité Moyenne*
 - [ ] **Phase 3** : Intégration Home Assistant
 - [x] **Phase 4.1** : CI (Workflows GitHub Actions)
 - [ ] **Phase 4.2** : CD (Publication)
@@ -27,7 +29,7 @@
 
 ## ⏭️ Prochaine Étape (Passage de relais)
 
-- Lancer la **Phase 2.3** : Implémenter le driver pour la Box STB7 (`stb7_driver.py`).
+- Procéder à l'analyse de l'APK de la STB8 et de son comportement WebSocket/UPnP Events, en suivant le plan détaillé dans `STB8_LISTENER_SPEC.md`.
 
 ## 🗂️ Backlog / V2
 

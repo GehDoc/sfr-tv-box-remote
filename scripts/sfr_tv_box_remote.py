@@ -4,16 +4,15 @@ This script provides a way to send single commands to a discovered box
 to test and control it from the command line.
 """
 
+# Standard library imports
 import argparse
 import asyncio
 import logging
-import os
-import sys
 from typing import Dict
 from typing import Type
 
-# Ensure the script can find the sfr_box_core module
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# Third-party imports (none in this file)
+# Local application/library specific imports
 from sfr_tv_box_core.base_driver import BaseSFRBoxDriver
 from sfr_tv_box_core.constants import DEFAULT_WEBSOCKET_PORT
 from sfr_tv_box_core.constants import CommandType
@@ -57,6 +56,9 @@ async def main() -> None:
     # Sub-parser for the 'get_versions' command
     subparsers.add_parser(CommandType.GET_VERSIONS.value, help="Get version information from the box.")
 
+    # Sub-parser for the 'listen' command
+    subparsers.add_parser("listen", help="Listen for incoming WebSocket messages from the box.")
+
     args = parser.parse_args()
 
     driver_class = DRIVER_MAP.get(args.model)
@@ -66,29 +68,45 @@ async def main() -> None:
 
     driver = driver_class(host=args.ip, port=args.port)
 
-    # Use an asyncio.Future to wait for the first message
-    first_message_received = asyncio.Future()
+    is_listen_mode = args.command == "listen"
 
-    def message_callback(message: str) -> None:
-        if not first_message_received.done():
-            first_message_received.set_result(message)
+    # --- Setup message handling ---
+    if is_listen_mode:
 
-    driver.set_message_callback(message_callback)
+        def print_message_callback(message: str) -> None:
+            _LOGGER.info("Received: %s", message)
+
+        driver.set_message_callback(print_message_callback)
+    else:
+        # For one-shot commands, use a Future to capture the first response
+        first_message_received = asyncio.Future()
+
+        def message_callback(message: str) -> None:
+            if not first_message_received.done():
+                first_message_received.set_result(message)
+
+        driver.set_message_callback(message_callback)
 
     try:
         await driver.start()
         _LOGGER.info("Successfully connected to %s.", args.ip)
 
-        command_params = {}
-        if args.command == CommandType.SEND_KEY.value:
-            command_params["key"] = KeyCode[args.key]
+        if is_listen_mode:
+            _LOGGER.info("Listening for messages. Press Ctrl+C to stop.")
+            # Keep the connection alive indefinitely
+            while True:
+                await asyncio.sleep(3600)  # Sleep for a long time, or until interrupted
+        else:
+            command_params = {}
+            if args.command == CommandType.SEND_KEY.value:
+                command_params["key"] = KeyCode[args.key]
 
-        _LOGGER.info("Sending command: %s with params: %s", args.command, command_params or "None")
-        await driver.send_command(CommandType(args.command), **command_params)
+            _LOGGER.info("Sending command: %s with params: %s", args.command, command_params or "None")
+            await driver.send_command(CommandType(args.command), **command_params)
 
-        _LOGGER.info("Waiting for response...")
-        response = await asyncio.wait_for(first_message_received, timeout=5.0)
-        _LOGGER.info("Received response:\n%s", response)
+            _LOGGER.info("Waiting for response...")
+            response = await asyncio.wait_for(first_message_received, timeout=5.0)
+            _LOGGER.info("Received response:\n%s", response)
 
     except asyncio.TimeoutError:
         _LOGGER.error("Did not receive a response within the timeout period.")
