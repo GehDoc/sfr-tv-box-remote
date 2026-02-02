@@ -1,8 +1,8 @@
+# SFR TV Box Remote (Unified WebSocket Driver)
+
 [![CI Status](https://github.com/GehDoc/sfr-tv-box-remote/workflows/CI/badge.svg)](https://github.com/GehDoc/sfr-tv-box-remote/actions?query=workflow%3ACI)
 [![Codecov](https://codecov.io/gh/GehDoc/sfr-tv-box-remote/branch/main/graph/badge.svg)](https://codecov.io/gh/GehDoc/sfr-tv-box-remote)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/GehDoc/sfr-tv-box-remote)](https://github.com/GehDoc/sfr-tv-box-remote/releases)
-
-# SFR TV Box Remote (Unified WebSocket Driver)
 
 Pilotage professionnel "Full IP" des décodeurs SFR (V8, V7, LaBox) pour Home Assistant. Ce projet utilise un transport WebSocket bidirectionnel unique, identifié par reverse-engineering de l'APK SFR TV, pour toutes les générations de matériel.
 
@@ -69,9 +69,10 @@ Le script recherchera les box pendant 10 secondes par défaut.
 
 **Options :**
 
-*   `-t <secondes>`, `--timeout <secondes>` : Spécifie la durée (en secondes) de la recherche réseau.
+- `-t <secondes>`, `--timeout <secondes>` : Spécifie la durée (en secondes) de la recherche réseau.
 
     *Exemple (recherche pendant 5 secondes) :*
+
     ```bash
     python scripts/run_discovery.py -t 5
     ```
@@ -92,33 +93,34 @@ PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip <ADRESSE_IP_DE_VOTRE_BOX> 
 
 **Options Principales :**
 
-*   `--ip <ADRESSE_IP>` : **Requis.** L'adresse IP de la box.
-*   `--port <NUMERO_DE_PORT>` : Le port pour la connexion WebSocket (par défaut : 7682).
-*   `--model <MODELE>` : Le modèle de la box (par défaut : STB8). Modèles supportés actuellement : `STB8`.
+- `--ip <ADRESSE_IP>` : **Requis.** L'adresse IP de la box.
+- `--port <NUMERO_DE_PORT>` : Le port pour la connexion WebSocket (par défaut : 7682).
+- `--model <MODELE>` : Le modèle de la box (par défaut : STB8). Modèles supportés actuellement : `STB8`.
 
 **Commandes :**
 
-*   `SEND_KEY <TOUCHE>` : Envoie une pression de touche de télécommande.
-    *   `<TOUCHE>` : Le nom de la touche à presser (par exemple, `POWER`, `HOME`, `NUM_5`). Les touches valides correspondent aux membres de l'énumération `KeyCode` dans `sfr_tv_box_core/constants.py`.
-    *   *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 SEND_KEY POWER`
+- `SEND_KEY <TOUCHE>` : Envoie une pression de touche de télécommande.
+  - `<TOUCHE>` : Le nom de la touche à presser (par exemple, `POWER`, `HOME`, `NUM_5`). Les touches valides correspondent aux membres de l'énumération `KeyCode` dans `sfr_tv_box_core/constants.py`.
+  - *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 SEND_KEY POWER`
 
-*   `GET_STATUS` : Obtient le statut actuel de la box.
-    *   *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_STATUS`
+- `GET_STATUS` : Obtient le statut actuel de la box.
+  - *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_STATUS`
 
-*   `GET_VERSIONS` : Obtient les informations de version de la box.
-    *   *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_VERSIONS`
+- `GET_VERSIONS` : Obtient les informations de version de la box.
+  - *Exemple :* `PYTHONPATH=. python scripts/sfr_tv_box_remote.py --ip 192.168.1.133 GET_VERSIONS`
 
 ## 5. Documentation du Projet
 
 Pour une analyse approfondie des spécifications du projet, de l'état d'avancement du développement et des structures de commandes détaillées, veuillez vous référer aux documents suivants :
 
-*   **[Spécifications et Roadmap du Projet](PROJECT_SPEC.md)** : Définit l'architecture globale, le backlog fonctionnel et les standards de développement.
-*   **[Avancement du Projet et Prochaines Étapes](PROGRESS.md)** : Suit le statut actuel, les tâches terminées et les phases de développement à venir.
-*   **[Processus de Release et Versioning](docs/RELEASE_PROCESS.md)** : Décrit la stratégie de versioning, le processus de release et la gestion des tags.
-*   **[Documentation Technique (docs/)](docs/)** : Contient les spécifications détaillées pour les commandes, les mécanismes de découverte et d'autres aspects techniques.
+- **[Spécifications et Roadmap du Projet](PROJECT_SPEC.md)** : Définit l'architecture globale, le backlog fonctionnel et les standards de développement.
+- **[Avancement du Projet et Prochaines Étapes](PROGRESS.md)** : Suit le statut actuel, les tâches terminées et les phases de développement à venir.
+- **[Processus de Release et Versioning](docs/RELEASE_PROCESS.md)** : Décrit la stratégie de versioning, le processus de release et la gestion des tags.
+- **[Documentation Technique (docs/)](docs/)** : Contient les spécifications détaillées pour les commandes, les mécanismes de découverte et d'autres aspects techniques.
 
-    *   [Spécification des Commandes et Payloads](docs/COMMANDS_SPEC.md)
-    *   [Spécification du Protocole de Découverte](docs/DISCOVERY_SPEC.md)
+  - [Spécification des Commandes et Payloads](docs/COMMANDS_SPEC.md)
+  - [Spécification du Protocole de Découverte](docs/DISCOVERY_SPEC.md)
+  - [Spécification du Listener STB8 et Plan d'Analyse APK](docs/STB8_LISTENER_SPEC.md)
 
 ## 6. Configuration de Développement
 
